@@ -4,35 +4,70 @@ import java.util.Scanner;
 
 public class TugasAlproPekan2 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
 
-        // 1. Meminta input dari pengguna
-        System.out.print("Masukkan NIM: ");
-        String nim = scanner.nextLine(); // NIM disimpan sebagai String
+        // Variabel
+        float berat, tinggi, bmi;
+        int usia;
+        char jenisKelamin;     // 'L' atau 'P'
+        boolean perluOlahraga;
+        int frekuensiOlahraga; // kali per minggu
 
-        System.out.print("Masukkan Nama Lengkap: ");
-        String nama = scanner.nextLine(); // Nama disimpan sebagai String
+        // Input dari pengguna
+        System.out.println("=== SARAN OLAHRAGA BERDASARKAN BERAT BADAN ===");
+        System.out.print("Masukkan berat badan Anda (kg): ");
+        berat = input.nextFloat();
 
-        System.out.print("Masukkan Umur: ");
-        int umur = scanner.nextInt(); // Umur disimpan sebagai int
+        System.out.print("Masukkan tinggi badan Anda (cm): ");
+        tinggi = input.nextFloat();
 
-        // 2. Konversi umur menjadi String
-        String umurString = String.valueOf(umur);
+        System.out.print("Masukkan usia Anda: ");
+        usia = input.nextInt();
 
-        // 3. Konversi NIM menjadi Long, lalu tambahkan dengan umur
-        long nimLong = Long.parseLong(nim);
-        long hasilPenjumlahan = nimLong + umur;
+        System.out.print("Jenis kelamin (L/P): ");
+        jenisKelamin = input.next().charAt(0);
 
-        // 4. Cetak hasil sesuai format yang diminta
-        System.out.println("\n=== Data Mahasiswa===");
-        System.out.println("NIM : " + nim);
-        System.out.println("Nama : " + nama);
-        System.out.println("Umur : " + umur + " tahun");
-        // Catatan: Instruksi meminta baris "IPK :<IPK>", tapi contoh output TIDAK mencetaknya.
-        // Berdasarkan contoh output, baris IPK di-SKIP.
-        System.out.println("Umur(String): " + umurString);
-        System.out.println("NIM+ Umur : " + hasilPenjumlahan);
+        // Hitung BMI (tinggi diubah ke meter)
+        tinggi = tinggi / 100; // ubah cm ke meter
+        bmi = berat / (tinggi * tinggi);
 
-        scanner.close();
+        // Tentukan apakah perlu olahraga & frekuensinya
+        if (bmi < 18.5) {
+            perluOlahraga = true;
+            frekuensiOlahraga = 3; // untuk kurus: bangun massa otot
+        } else if (bmi <= 24.9) {
+            perluOlahraga = usia > 30; // ideal, tapi jika di atas 30 tetap disarankan
+            frekuensiOlahraga = 2;
+        } else if (bmi <= 29.9) {
+            perluOlahraga = true;
+            frekuensiOlahraga = 4; // overweight
+        } else {
+            perluOlahraga = true;
+            frekuensiOlahraga = 5; // obesitas
+        }
+
+        // Tambah rekomendasi jika usia > 50
+        if (usia > 50) {
+            frekuensiOlahraga = Math.min(frekuensiOlahraga, 3); // maksimal 3x untuk lansia
+        }
+
+        // Output hasil
+        System.out.println("\n=== HASIL ANALISIS ===");
+        System.out.printf("BMI Anda: %.1f\n", bmi);
+        System.out.println("Kategori: " + 
+            (bmi < 18.5 ? "Kurus" : 
+             bmi <= 24.9 ? "Normal" : 
+             bmi <= 29.9 ? "Overweight" : "Obesitas"));
+
+        if (perluOlahraga) {
+            System.out.println("💡 Anda disarankan olahraga " + frekuensiOlahraga + " kali per minggu.");
+            if (bmi < 18.5) System.out.println("   → Fokus pada olahraga pembentukan otot.");
+            else if (bmi > 25) System.out.println("   → Fokus pada kardio dan pembakaran lemak.");
+            if (usia > 50) System.out.println("   → Sesuaikan intensitas, jangan berlebihan.");
+        } else {
+            System.out.println("✅ Berat badan Anda ideal. Olahraga ringan 1-2x seminggu cukup untuk menjaga kesehatan.");
+        }
+
+        input.close();
     }
 }
