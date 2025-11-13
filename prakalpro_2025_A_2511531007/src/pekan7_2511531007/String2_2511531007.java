@@ -2,7 +2,7 @@ package pekan7_2511531007;
 
 import java.util.Scanner;
 
-public class String2 {
+public class String2_2511531007 {
 
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
@@ -27,3 +27,4 @@ public class String2 {
 	}
 
 }
+
